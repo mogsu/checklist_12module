@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Чек-лист 12 модуль</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #eef2f6;
+    --paper: #ffffff;
+    --ink: #14213d;
+    --muted: #5c6b82;
+    --line: #d6dde8;
+    --green: #1f9d55;
+    --green-soft: #e3f5ea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1522;
+      --paper: #162033;
+      --ink: #eaf0fa;
+      --muted: #94a3bb;
+      --line: #2a3750;
+      --green: #3ec275;
+      --green-soft: #17342a;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+    padding: 32px 16px 64px;
+  }
+  .wrap { max-width: 680px; margin: 0 auto; }
+
+  h1 {
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin: 0 0 20px;
+    text-align: center;
+  }
+
+  .progress { margin-bottom: 28px; }
+  .progress-top {
+    display: flex; justify-content: space-between;
+    font-size: 0.95rem; color: var(--muted); margin-bottom: 8px;
+  }
+  .bar { height: 10px; background: var(--line); border-radius: 99px; overflow: hidden; }
+  .bar-fill {
+    height: 100%; width: 0; background: var(--green);
+    border-radius: 99px; transition: width .25s ease;
+  }
+
+  .block {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px 22px 12px;
+    margin-bottom: 18px;
+  }
+  .block h2 { font-size: 1.15rem; font-weight: 700; margin: 0 0 8px; }
+
+  .item {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 10px 0; cursor: pointer;
+    border-top: 1px solid var(--line);
+  }
+  .block h2 + .item { border-top: 0; }
+  .item input { position: absolute; opacity: 0; pointer-events: none; }
+
+  .box {
+    flex: none; width: 26px; height: 26px; margin-top: 1px;
+    border: 2px solid var(--muted); border-radius: 7px;
+    display: grid; place-items: center;
+    transition: background .15s, border-color .15s;
+  }
+  .box svg { width: 16px; height: 16px; opacity: 0; transform: scale(.5); transition: opacity .15s, transform .15s; }
+  .item input:checked + .box { background: var(--green); border-color: var(--green); }
+  .item input:checked + .box svg { opacity: 1; transform: scale(1); }
+  .item input:focus-visible + .box { outline: 3px solid var(--green); outline-offset: 2px; }
+  .item:hover .box { border-color: var(--green); }
+
+  .text { transition: color .15s; }
+  .item input:checked ~ .text { color: var(--muted); text-decoration: line-through; }
+
+  .actions { display: flex; justify-content: flex-end; }
+  button.reset {
+    font: inherit; font-size: 0.9rem; color: var(--muted);
+    background: none; border: 1px solid var(--line); border-radius: 8px;
+    padding: 8px 14px; cursor: pointer;
+  }
+  button.reset:hover { color: var(--ink); border-color: var(--muted); }
+  button.reset:focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ✏️ МЕСТО 1: ЗАГОЛОВОК СТРАНИЦЫ — поменяйте текст внутри <h1> -->
+  <h1>Чек-лист 12 модуль</h1>
+
+  <div class="progress">
+    <div class="progress-top"><span>Выполнено</span><span id="count">0 из 0</span></div>
+    <div class="bar"><div class="bar-fill" id="fill"></div></div>
+  </div>
+
+  <div id="list">
+
+    <!-- ============================================================
+         БЛОК 1 (раздел) — пример
+         ============================================================ -->
+    <section class="block">
+      <!-- ✏️ МЕСТО 2: НАЗВАНИЕ РАЗДЕЛА -->
+      <h2>Блок 1. Как убрать нагар с утюга?</h2>
+
+      <!-- ✏️ МЕСТО 3: ПУНКТЫ ЧЕК-ЛИСТА. Один пункт = один <label class="item">...</label> -->
+      <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">Сократить ответ (600 символов)/добавить список</span>
+      </label>
+
+      <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">Неправильное обращение ты/вы</span>
+      </label>
+
+      <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">Не самые безопасные методы (утюг и парафин) </span>
+      </label>
+
+      <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">Сокращение спец. очиститель</span>
+      </label>
+
+      <!-- ✏️ МЕСТО 4: НОВЫЙ ПУНКТ В ЭТОТ РАЗДЕЛ — скопируйте <label> целиком и вставьте СЮДА, поменяв текст в <span class="text"> -->
+    </section>
+
+    <!-- ============================================================
+         БЛОК 2 (раздел) — пример
+         ============================================================ -->
+    <section class="block">
+      <h2>Блок 2. Завтра еду в Москву </h2>
+
+      <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">Парочка мест vs множество</span>
+      </label>
+
+      <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">Лахта Центр (Питер)</span>
+      </label>
+
+      <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">Лахта Центр (без дефиса)</span>
+      </label>
+
+            <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">И.В. Ленин (пробел между инициалами)</span>
+      </label>
+
+      <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">И.В. Ленин (В. И. Ленин)</span>
+      </label>
+
+            <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">Согласование "с красивым галереями"</span>
+      </label>
+
+            <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">Третяковскую (Третьяковскую)</span>
+      </label>
+
+            <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">"гум" (ГУМ)</span>
+      </label>
+
+            <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">"...мест-Красная площадь" (пробелы у тире)</span>
+      </label>
+
+    </section>
+
+    <!-- ============================================================
+         БЛОК 3 (раздел) — пример
+         ============================================================ -->
+    <section class="block">
+      <h2>Блок 3. Кто такие хикикомори? </h2>
+
+      <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">Извиняется за ошибку (систем)</span>
+      </label>
+
+      <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">Англицизмы/смешение языков (систем)</span>
+      </label>
+
+      <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">Маркированный, а не нумерованный список/единообразие (РП)</span>
+      </label>
+
+            <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">Заголовок (##Более подробно.###)/знаки препинания в заголовках</span>
+      </label>
+
+            <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">Сокращение "внеш. миром"</span>
+      </label>
+
+            <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">Согласование "в том числе в РоссиЮ"</span>
+      </label>
+
+                  <label class="item">
+        <input type="checkbox">
+        <span class="box"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span>
+        <span class="text">Неправильный тип кавычек</span>
+      </label>
+
+    </section>
+    <!-- ✏️ МЕСТО 5: НОВЫЙ РАЗДЕЛ (БЛОК) — скопируйте <section class="block">...</section> целиком и вставьте СЮДА, выше этой строки -->
+
+  </div>
+
+  <div class="actions">
+    <button class="reset" id="reset" type="button">Сбросить все отметки</button>
+  </div>
+</div>
+
+<script>
+  // Чек-лист сохраняет отметки в браузере. Ключ — текст пункта,
+  // поэтому новые пункты можно добавлять в любое место списка.
+  var STORAGE_KEY = "checklist-12";
+  var boxes = document.querySelectorAll('#list input[type="checkbox"]');
+
+  function keyOf(input) {
+    return input.closest(".item").querySelector(".text").textContent.trim();
+  }
+
+  function load() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+    catch (e) { return {}; }
+  }
+
+  function save() {
+    var state = {};
+    boxes.forEach(function (b) { if (b.checked) state[keyOf(b)] = true; });
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function updateProgress() {
+    var done = 0;
+    boxes.forEach(function (b) { if (b.checked) done++; });
+    document.getElementById("count").textContent = done + " из " + boxes.length;
+    document.getElementById("fill").style.width = (boxes.length ? done / boxes.length * 100 : 0) + "%";
+  }
+
+  var saved = load();
+  boxes.forEach(function (b) {
+    b.checked = !!saved[keyOf(b)];
+    b.addEventListener("change", function () { save(); updateProgress(); });
+  });
+
+  document.getElementById("reset").addEventListener("click", function () {
+    boxes.forEach(function (b) { b.checked = false; });
+    save(); updateProgress();
+  });
+
+  updateProgress();
+</script>
+</body>
+</html>
